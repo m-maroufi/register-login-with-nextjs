@@ -1,5 +1,5 @@
-import LoginForm from "@/app/components/LoginForm";
-import LoginWithSocial from "@/app/components/LoginWithSocial";
+import LoginForm from "@/components/LoginForm";
+import LoginWithSocial from "@/components/LoginWithSocial";
 import Image from "next/image";
 import Link from "next/link";
 

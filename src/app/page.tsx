@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import RegisterForm from "./components/RegisterForm";
-import LoginWithSocial from "./components/LoginWithSocial";
+import RegisterForm from "../components/RegisterForm";
+import LoginWithSocial from "../components/LoginWithSocial";
 
 export default function Home() {
   return (

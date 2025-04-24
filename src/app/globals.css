@@ -1,42 +1,276 @@
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@import "../../public/fonts/YekanBakhFaNum//webfonts/fontiran.css";
+@import "tailwindcss";
+
+@theme {
+  --font-yekanbakh: "Yekan Bakh FaNum", sans-serif;
+  --color-catskill-white: oklch(98.415% 0.00341 247.86);
+  --color-catskill-white-50: oklch(98.415% 0.00341 247.86);
+  --color-catskill-white-100: oklch(93.937% 0.01381 247.97);
+  --color-catskill-white-200: oklch(84.925% 0.0336 248.22);
+  --color-catskill-white-300: oklch(75.786% 0.05438 248.55);
+  --color-catskill-white-400: oklch(66.549% 0.07609 249.03);
+  --color-catskill-white-500: oklch(57.239% 0.0935 249.3);
+  --color-catskill-white-600: oklch(47.732% 0.07612 249.1);
+  --color-catskill-white-700: oklch(37.783% 0.05708 249.55);
+  --color-catskill-white-800: oklch(27.009% 0.03544 247.69);
+  --color-catskill-white-900: oklch(15.066% 0.01217 241.09);
+  --color-catskill-white-950: oklch(0% 0 none);
+
+  --color-royal-blue: oklch(54.615% 0.21521 262.88);
+  --color-royal-blue-50: oklch(89.067% 0.04536 266.15);
+  --color-royal-blue-100: oklch(85.079% 0.06405 265.44);
+  --color-royal-blue-200: oklch(76.944% 0.10079 265.29);
+  --color-royal-blue-300: oklch(69.004% 0.14028 264.84);
+  --color-royal-blue-400: oklch(61.513% 0.17779 263.37);
+  --color-royal-blue-500: oklch(54.615% 0.21521 262.88);
+  --color-royal-blue-600: oklch(46.165% 0.20103 262.87);
+  --color-royal-blue-700: oklch(37.446% 0.15679 262.73);
+  --color-royal-blue-800: oklch(28.349% 0.11024 262.86);
+  --color-royal-blue-900: oklch(18.191% 0.05989 262.54);
+  --color-royal-blue-950: oklch(12.805% 0.02867 256.42);
+}
+@layer base {
+  html {
+    font-family: var(--font-yekanbakh);
+  }
+
+  body {
+    direction: rtl;
+    background: var(--color-catskill-white);
+  }
+  input {
+    border-width: 2px;
+    border-image: linear-gradient(
+        to right,
+        rgba(155, 155, 155, 0.2) 0%,
+        rgba(155, 155, 155, 0.6) 50%,
+        rgba(155, 155, 155, 0.2) 100%
+      )
+      1;
+    border-style: solid;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-radius: 12px;
+    transition: all 200ms;
+  }
+  input:focus {
+    border-image: linear-gradient(
+        to right,
+        var(--color-royal-blue-200) 0%,
+        var(--color-royal-blue-500) 50%,
+        var(--color-royal-blue-200) 100%
+      )
+      1;
+  }
+}
+@layer components {
+  .btn_primary {
+    @apply bg-royal-blue-500 cursor-pointer rounded-lg text-white block text-center h-10 w-full hover:bg-royal-blue-600 transition-colors font-medium shadow-lg shadow-royal-blue-200/70;
+  }
+  .btn_secondray {
+    @apply bg-white cursor-pointer rounded-lg text-gray-800 border border-catskill-white-200 flex items-center justify-center text-center h-10 w-full hover:bg-royal-blue-600 transition-colors font-bold text-sm hover:text-white shadow-lg gap-3;
+  }
+  .banner::-webkit-scrollbar {
+    width: 0;
+  }
+}
+/* From Uiverse.io by Nawsome */
+.loader {
+  --background: linear-gradient(135deg, #23c4f8, #275efe);
+  --shadow: rgba(39, 94, 254, 0.28);
+  --text: #6c7486;
+  --page: rgba(255, 255, 255, 0.36);
+  --page-fold: rgba(255, 255, 255, 0.52);
+  --duration: 3s;
+  width: 200px;
+  height: 140px;
+  position: relative;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+.loader:before,
+.loader:after {
+  --r: -6deg;
+  content: "";
+  position: absolute;
+  bottom: 8px;
+  width: 120px;
+  top: 80%;
+  box-shadow: 0 16px 12px var(--shadow);
+  transform: rotate(var(--r));
+}
+
+.loader:before {
+  left: 4px;
+}
+
+.loader:after {
+  --r: 6deg;
+  right: 4px;
+}
+
+.loader div {
+  width: 100%;
+  height: 100%;
+  border-radius: 13px;
+  position: relative;
+  z-index: 1;
+  perspective: 600px;
+  box-shadow: 0 4px 6px var(--shadow);
+  background-image: var(--background);
+}
+
+.loader div ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  position: relative;
+}
+
+.loader div ul li {
+  --r: 180deg;
+  --o: 0;
+  --c: var(--page);
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  transform-origin: 100% 50%;
+  color: var(--c);
+  opacity: var(--o);
+  transform: rotateY(var(--r));
+  -webkit-animation: var(--duration) ease infinite;
+  animation: var(--duration) ease infinite;
+}
+
+.loader div ul li:nth-child(2) {
+  --c: var(--page-fold);
+  -webkit-animation-name: page-2;
+  animation-name: page-2;
+}
+
+.loader div ul li:nth-child(3) {
+  --c: var(--page-fold);
+  -webkit-animation-name: page-3;
+  animation-name: page-3;
+}
+
+.loader div ul li:nth-child(4) {
+  --c: var(--page-fold);
+  -webkit-animation-name: page-4;
+  animation-name: page-4;
+}
+
+.loader div ul li:nth-child(5) {
+  --c: var(--page-fold);
+  -webkit-animation-name: page-5;
+  animation-name: page-5;
+}
+
+.loader div ul li svg {
+  width: 90px;
+  height: 120px;
+  display: block;
+}
+
+.loader div ul li:first-child {
+  --r: 0deg;
+  --o: 1;
+}
+
+.loader div ul li:last-child {
+  --o: 1;
+}
+
+.loader span {
+  display: block;
+  left: 0;
+  right: 0;
+  top: 100%;
+  margin-top: 20px;
+  text-align: center;
+  color: var(--text);
+}
+
+@keyframes page-2 {
+  0% {
+    transform: rotateY(180deg);
+    opacity: 0;
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  35%,
+  100% {
+    opacity: 0;
+  }
+
+  50%,
+  100% {
+    transform: rotateY(0deg);
   }
 }
 
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
+@keyframes page-3 {
+  15% {
+    transform: rotateY(180deg);
+    opacity: 0;
+  }
+
+  35% {
+    opacity: 1;
+  }
+
+  50%,
+  100% {
+    opacity: 0;
+  }
+
+  65%,
+  100% {
+    transform: rotateY(0deg);
+  }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@keyframes page-4 {
+  30% {
+    transform: rotateY(180deg);
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  65%,
+  100% {
+    opacity: 0;
+  }
+
+  80%,
+  100% {
+    transform: rotateY(0deg);
+  }
 }
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
+@keyframes page-5 {
+  45% {
+    transform: rotateY(180deg);
+    opacity: 0;
+  }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
+  65% {
+    opacity: 1;
+  }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+  80%,
+  100% {
+    opacity: 0;
+  }
+
+  95%,
+  100% {
+    transform: rotateY(0deg);
   }
 }

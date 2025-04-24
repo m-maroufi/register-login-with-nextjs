@@ -1,15 +1,18 @@
 "use client";
-import { registerShema } from "@/utils/registerShema";
-import { z } from "zod";
 import React, { useActionState, useEffect } from "react";
 import { registerUser } from "@/_actions/registerAction";
 import Image from "next/image";
+import { notify } from "@/utils/toast";
 
 const RegisterForm = () => {
   // @ts-ignore
   const [state, action, isPending] = useActionState(registerUser, {});
   useEffect(() => {
     if (state.success) {
+      notify("اعتبار سنجی با موفقیت انجام شد", "success", 4000);
+    }
+    if (state.errors) {
+      notify("لطفا فیلد ها را با دقت پر کنید", "error");
     }
   }, [state]);
   return (

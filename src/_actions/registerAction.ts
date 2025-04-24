@@ -7,7 +7,7 @@ export async function registerUser(
   _prevState: z.infer<typeof registerShema>,
   formData: FormData
 ) {
-  const sleep = (ms: number = 1000) =>
+  const sleep = (ms: number = 700) =>
     new Promise((resolve) => setTimeout(resolve, ms));
   await sleep();
 
@@ -16,8 +16,6 @@ export async function registerUser(
   const result = registerShema.safeParse(entries);
 
   if (!result.success) {
-    console.log(entries);
-
     const errors = result.error.flatten().fieldErrors;
     return {
       success: false,

@@ -1,15 +1,18 @@
 "use client";
 
 import { loginUser } from "@/_actions/loginAction";
+import { loginShema } from "@/utils/loginShema";
 import { notify } from "@/utils/toast";
 import Image from "next/image";
+import { redirect } from "next/navigation";
 import React, { useActionState, useEffect, useRef, useState } from "react";
-
+import { z } from "zod";
+const intialState: z.infer<typeof loginShema> = {
+  email: "",
+  password: "",
+};
 const LoginForm = () => {
-  const [formFields, setFormFields] = useState({
-    email: "",
-    password: "",
-  });
+  const [formFields, setFormFields] = useState(intialState);
   const formRef = useRef<HTMLFormElement>(null); // اضافه کردن ref
   const [state, action, isPending] = useActionState(loginUser, undefined);
 
@@ -25,7 +28,9 @@ const LoginForm = () => {
     const { success } = state;
     if (success) {
       notify("اعتبار سنجی با موفقیت انجام شد", "success", 4000);
-      setFormFields({ email: "", password: "" }); // پاک کردن فرم
+      setFormFields(intialState); // پاک کردن فرم
+      formRef.current?.reset();
+      redirect("dashbord");
     } else {
       notify("لطفا فیلد ها را با دقت پر کنید", "error");
     }

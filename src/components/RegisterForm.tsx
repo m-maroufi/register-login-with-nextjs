@@ -1,28 +1,52 @@
 "use client";
-import React, { useActionState, useEffect } from "react";
+import React, { useActionState, useEffect, useRef, useState } from "react";
 import { registerUser } from "@/_actions/registerAction";
 import Image from "next/image";
 import { notify } from "@/utils/toast";
-
+import { z } from "zod";
+import { registerShema } from "@/utils/registerShema";
+import { redirect } from "next/navigation";
+const intialState: z.infer<typeof registerShema> = {
+  first_name: "",
+  last_name: "",
+  email: "",
+  password: "",
+  phone_number: "",
+};
 const RegisterForm = () => {
-  // @ts-ignore
-  const [state, action, isPending] = useActionState(registerUser, {});
+  const form = useRef<HTMLFormElement>(null);
+  const [formFields, setFormFields] = useState(intialState);
+  const [state, action, isPending] = useActionState(registerUser, undefined);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormFields((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
   useEffect(() => {
-    if (state.success) {
+    if (!state) return;
+    if (state?.success) {
       notify("اعتبار سنجی با موفقیت انجام شد", "success", 4000);
-    }
-    if (state.errors) {
+      setFormFields(intialState);
+      form.current?.reset();
+      redirect("dashbord");
+    } else {
       notify("لطفا فیلد ها را با دقت پر کنید", "error");
+      console.log(state.data);
     }
   }, [state]);
   return (
-    <form action={action} className="mt-8 space-y-2 pb-4">
+    <form ref={form} action={action} className="mt-8 space-y-2 pb-4">
       <div className="input-field relative">
         <input
           type="text"
           placeholder="نام"
           id="first_name"
           name="first_name"
+          value={formFields?.first_name}
+          onChange={handleChange}
           className={`relative w-full py-2 px-2 focus:outline-none placeholder:text-gray-400 placeholder:text-md`}
         />
         {state?.errors?.first_name && (
@@ -46,6 +70,8 @@ const RegisterForm = () => {
           placeholder="نام خانوادگی"
           id="last_name"
           name="last_name"
+          value={formFields?.last_name}
+          onChange={handleChange}
           className="relative w-full py-2 px-2 focus:outline-none placeholder:text-gray-400 placeholder:text-md"
         />
         {state?.errors?.last_name && (
@@ -69,6 +95,8 @@ const RegisterForm = () => {
           placeholder="شماره تلفن"
           id="phone_number"
           name="phone_number"
+          value={formFields?.phone_number}
+          onChange={handleChange}
           className="relative w-full py-2 px-2 focus:outline-none placeholder:text-gray-400 placeholder:text-md"
         />
         {state?.errors?.phone_number && (
@@ -92,6 +120,8 @@ const RegisterForm = () => {
           placeholder="ایمیل"
           id="email"
           name="email"
+          value={formFields?.email}
+          onChange={handleChange}
           className="relative w-full py-2 px-2 focus:outline-none placeholder:text-gray-400 placeholder:text-md"
         />
         {state?.errors?.email && (
@@ -116,6 +146,8 @@ const RegisterForm = () => {
           placeholder="کلمه عبور"
           id="password"
           name="password"
+          value={formFields?.password}
+          onChange={handleChange}
           className="relative w-full py-2 px-2 focus:outline-none placeholder:text-gray-400 placeholder:text-md"
         />
         {state?.errors?.password && (
